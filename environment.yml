@@ -1,0 +1,26 @@
+name: confidence-pipeline
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  # data + shell core
+  - pandas
+  - geopandas
+  - pydantic>=2
+  - altair>=5
+  - duckdb
+  - jupyter
+  # remote-sensing stack (for the real EE / Kayrros adapters — S2/S1 zonal stats)
+  - rasterio
+  - rioxarray
+  - xarray
+  - dask
+  - pystac-client
+  - stackstac
+  - rasterstats
+  - shapely
+  - pyproj
+  - pip
+  - pip:
+      - vl-convert-python   # required by altair.save() for SVG export
+      - planetary-computer   # STAC signing helper for Microsoft PC endpoint (optional)
