@@ -1,0 +1,22 @@
+name: 'confidence_pipeline'
+version: '0.1.0'
+config-version: 2
+
+profile: 'confidence_pipeline'
+
+model-paths: ["models"]
+macro-paths: ["macros"]
+test-paths: ["tests"]
+seed-paths: ["seeds"]
+
+target-path: "target"
+clean-targets:
+  - "target"
+  - "dbt_packages"
+
+models:
+  confidence_pipeline:
+    staging:
+      +materialized: view
+    marts:
+      +materialized: table

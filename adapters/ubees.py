@@ -82,3 +82,5 @@ def load_context(path: Path | None = None) -> list[Observation]:
 
 def load_all() -> list[Observation]:
     return load_weight() + load_acoustic() + load_context()
+
+# TODO: swap for STAC ingest

@@ -79,3 +79,5 @@ def load_declared(path: Path | None = None) -> list[Observation]:
 
 def load_all() -> list[Observation]:
     return load_ndvi() + load_ground_plots() + load_declared()
+
+# TODO: swap for STAC ingest

@@ -1,0 +1,17 @@
+confidence_pipeline:
+  target: dev
+  outputs:
+    dev:
+      type: duckdb
+      path: ../data/warehouse.duckdb
+      threads: 4
+      extensions:
+        - httpfs
+        - spatial
+      # MinIO integration (optional — needs DUCKDB_S3_* env vars set):
+      # settings:
+      #   s3_endpoint: "{{ env_var('DUCKDB_S3_ENDPOINT') }}"
+      #   s3_access_key_id: "{{ env_var('DUCKDB_S3_ACCESS_KEY_ID') }}"
+      #   s3_secret_access_key: "{{ env_var('DUCKDB_S3_SECRET_ACCESS_KEY') }}"
+      #   s3_url_style: "{{ env_var('DUCKDB_S3_URL_STYLE') }}"
+      #   s3_use_ssl: "{{ env_var('DUCKDB_S3_USE_SSL') }}"
