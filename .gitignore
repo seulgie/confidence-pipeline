@@ -7,3 +7,16 @@ out/
 .ipynb_checkpoints/
 .DS_Store
 Thumbs.db
+
+# Airflow (kept in-repo via AIRFLOW_HOME=$PWD/.airflow but not tracked)
+.airflow/
+
+# MinIO local volume
+data/minio/
+
+# DuckDB dev warehouse + dbt build artifacts
+data/warehouse.duckdb
+dbt/target/
+dbt/dbt_packages/
+dbt/logs/
+dbt/.user.yml

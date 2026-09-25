@@ -1,0 +1,1 @@
+# TODO: Implement the 6 steps of Airflow DAGs (STAC search → download → mask → NDVI → zonal → write parquet)

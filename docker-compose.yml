@@ -1,0 +1,45 @@
+# Minimal infra for the DE walkthrough: just MinIO (local S3-compatible object store).
+#
+# Airflow runs OUTSIDE Docker in the same conda env — `airflow standalone` — so the
+# skill-up focus stays on the pipeline, not on orchestrator hosting. To containerize
+# Airflow later, add a second service here; the DAG code doesn't change.
+#
+# Bring up:   docker compose up -d
+# Web UI:     http://localhost:9001    (login: minioadmin / minioadmin)
+# S3 API:     http://localhost:9000
+# Bring down: docker compose down
+#
+# Buckets `raw` and `staged` are created by init-buckets on first `up`.
+
+services:
+  minio:
+    image: minio/minio:latest
+    container_name: confidence-pipeline-minio
+    ports:
+      - "9000:9000"     # S3 API
+      - "9001:9001"     # Web console
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin
+    volumes:
+      - ./data/minio:/data
+    command: server /data --console-address ":9001"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  # One-shot bucket creator — waits for MinIO to be healthy, creates buckets, exits.
+  init-buckets:
+    image: minio/mc:latest
+    depends_on:
+      minio:
+        condition: service_healthy
+    entrypoint: >
+      /bin/sh -c "
+      mc alias set local http://minio:9000 minioadmin minioadmin;
+      mc mb --ignore-existing local/raw;
+      mc mb --ignore-existing local/staged;
+      echo 'Buckets ready: raw, staged';
+      "
